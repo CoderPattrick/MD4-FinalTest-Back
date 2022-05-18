@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create City</title>
+</head>
+<body>
+<h2>Thêm thành phố</h2>
+<form>
+<table>
+    <tr>
+        <td>Tên</td>
+        <td><input type="text" id="name" name="name" style="size: 50px"></td>
+    </tr><tr>
+        <td>Quốc gia</td>
+        <td><select name="nation" id="nation"></select></td>
+    </tr><tr>
+        <td>Diện tích</td>
+        <td><input type="text" id="area" name="area" style="size: 50px"></td>
+    </tr><tr>
+        <td>Dân số</td>
+        <td><input type="text" id="population" name="population" style="size: 50px"></td>
+    </tr><tr>
+        <td>GDP</td>
+        <td><input type="text" id="gdp" name="gdp" style="size: 50px"></td>
+    </tr><tr>
+        <td>Giới thiệu</td>
+        <td><textarea name="description" id="description" cols="50px" rows="10"></textarea></td>
+    </tr>
+</table>
+    <button onclick="createCity()">Nhập thành  phố</button>
+    <button onclick="exitForm()">Thoát</button>
+</form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function createCity(){
+        event.preventDefault();
+        let name = $('#name').val();
+        let nation = $('#nation').val();
+        let area = $('#area').val();
+        let population = $('#population').val();
+        let gdp = $('#gdp').val();
+        let description = $('#description').val();
+        let obj = {
+            name:name,
+            nation:{id:nation},
+            area:area,
+            population:population,
+            GDP:gdp,
+            description:description
+        }
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(obj),
+            url: "http://localhost:8080/city",
+            success: function (){
+                window.alert("Saved to Database!")
+            }
+        })
+    }
+    function exitForm(){
+        event.preventDefault();
+        window.location.href = "http://localhost:8080/home";
+    }
+    function showNations(){
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:8080/nation",
+            success:function (data){
+                let content = ""
+                for (let i = 0; i < data.length; i++) {
+                    content+= "<option value='"+data[i].id+"'>"+data[i].name+"</option>";
+                }
+            }
+        })
+    }
+    showNations();
+</script>
+</html>
