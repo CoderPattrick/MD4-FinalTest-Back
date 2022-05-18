@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/nation")
 public class NationController {
     @Autowired

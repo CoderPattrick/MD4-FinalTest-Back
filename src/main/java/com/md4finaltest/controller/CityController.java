@@ -3,6 +3,7 @@ package com.md4finaltest.controller;
 import com.md4finaltest.model.City;
 import com.md4finaltest.model.Nation;
 import com.md4finaltest.service.CityService;
+import com.md4finaltest.service.NationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/city")
 public class CityController {
     @Autowired
     private CityService cityService;
+    @Autowired
+    private NationService nationService;
 
     @GetMapping
     public ResponseEntity<Iterable<City>> findAll() {
@@ -46,5 +50,11 @@ public class CityController {
             return new ResponseEntity<>(city.get(),HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("/nation")
+    public ResponseEntity<Iterable<City>> findByNation(@RequestParam Long nation_id) {
+        Nation nation = nationService.findById(nation_id).get();
+        return new ResponseEntity<>(cityService.findByNation(nation), HttpStatus.OK);
+
     }
 }

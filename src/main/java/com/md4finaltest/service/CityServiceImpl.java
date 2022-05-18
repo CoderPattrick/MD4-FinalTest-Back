@@ -1,6 +1,7 @@
 package com.md4finaltest.service;
 
 import com.md4finaltest.model.City;
+import com.md4finaltest.model.Nation;
 import com.md4finaltest.repo.CityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,10 @@ public class CityServiceImpl implements CityService{
     @Override
     public void deleteById(Long id) {
         cityRepo.deleteById(id);
+    }
+
+    @Override
+    public Iterable<City> findByNation(Nation nation) {
+        return cityRepo.findByNation(nation);
     }
 }
